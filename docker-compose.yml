@@ -6,12 +6,12 @@ services:
     env_file: .env
     ports:
       - '3000:3000'
-    depends_on:
-      - mongo
     networks:
-      - ul_network:
-          - external: true
+      - ul_network
     volumes:
-      - .:/app
-      - /app/node_modules
+      - ./src:/app/src  # ✅ Nur den src-Ordner mounten, damit Code-Änderungen sofort übernommen werden
     command: npm run dev
+
+networks:
+  ul_network:
+    external: true

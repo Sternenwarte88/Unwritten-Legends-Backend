@@ -18,9 +18,10 @@ router.post('/users', async (req: Request, res: Response, next: NextFunction) =>
     const user: IUser = new User();
     const { username, email, password } = req.body;
 
-    const foundUser = await User.find(email);
-    if (foundUser == null) {
-      res.send('User already exists!');
+    const foundUser = await User.find({ email });
+    if (foundUser.length > 0) {
+      res.json({ message: 'User already exists!' });
+      console.log('User exists');
       return;
     }
 
@@ -31,7 +32,16 @@ router.post('/users', async (req: Request, res: Response, next: NextFunction) =>
     user.password = decryptedPassword;
 
     await user.save();
-  } catch (error) {}
+
+    res.json({
+      message: 'User Created!',
+      data: user.email,
+    });
+
+    console.log('User created');
+  } catch (error) {
+    res.json({ error: error, message: 'Error ' + error });
+  }
 });
 
 export default router;

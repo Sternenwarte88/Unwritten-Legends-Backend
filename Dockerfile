@@ -1,21 +1,25 @@
-# Basis-Image
+# Use a Node.js base image
 FROM node:18
 
-# Arbeitsverzeichnis setzen
+# Set working directory inside the container
 WORKDIR /app
 
-# Abhängigkeiten installieren
-COPY package.json package-lock.json tsconfig.json ./
+# Copy package.json and package-lock.json first
+COPY package.json ./
+
+# Install ALL dependencies (including devDependencies)
 RUN npm install
 
-# Code kopieren
+# Copy the rest of the app
 COPY . .
 
-# TypeScript bauen
-RUN npm run build
+RUN  npm rebuild bcrypt --build-from-source
 
-# Port freigeben
+# Ensure ts-node is available globally
+RUN npm install -g ts-node
+
+# Expose port 3000
 EXPOSE 3000
 
-# Startbefehl
-CMD ["node", "dist/server.js"]
+# Default command
+CMD ["npm", "run", "dev"]
