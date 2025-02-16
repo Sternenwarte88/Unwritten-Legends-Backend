@@ -9,4 +9,6 @@ export interface IUser {
   createdAt: Date;
 }
 
-export type IUserDocument = IUser & Document;
+export interface IUserDocument extends Document<string>, IUser {
+  _id: string; // Mongoose hat standardmäßig ein String-basiertes _id
+}
