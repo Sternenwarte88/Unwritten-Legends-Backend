@@ -100,6 +100,7 @@ npm run dev:dashboard
 
 ## 📜 **Lizenz**
 
-Dieses Projekt steht unter der MIT-Lizenz. 📃
+Dieses Projekt ist **privat** und darf **nicht** kopiert, verändert, verbreitet oder kommerziell
+genutzt werden. Jegliche Verwendung außerhalb der autorisierten Nutzung ist **untersagt**.
 
 Viel Spaß und Happy Coding! 🚀😊
