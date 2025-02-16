@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import { IUserDocument } from '../../interfaces/database/IUser';
 import User from '../../models/user';
 import {
+  accessTokenExpiry,
   createTokens,
   deleteRefreshToken,
   getRefreshToken,
@@ -134,7 +135,7 @@ export const refreshAccessToken: RequestHandler = async (
     const accessToken = jwt.sign(
       { userId: decoded.userId, email: decoded.email },
       process.env.JWT_SECRET!,
-      { expiresIn: '15m' },
+      { expiresIn: accessTokenExpiry },
     );
 
     res.status(200).json({

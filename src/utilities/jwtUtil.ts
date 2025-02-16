@@ -3,19 +3,19 @@ import redisClient from '../config/redis';
 import { IUserDocument } from '../interfaces/database/IUser';
 
 // Token-Lebensdauern
-const ACCESS_TOKEN_EXPIRY = '15m';
-const REFRESH_TOKEN_EXPIRY = '7d';
+export const accessTokenExpiry = '15m';
+export const refreshTokenExpiry = '7d';
 
 // JWT-Token erstellen
 export const createTokens = (user: IUserDocument) => {
   const payload = { userId: user._id, email: user.email, realmId: user.realmId };
 
   const accessToken = jwt.sign(payload, process.env.JWT_SECRET!, {
-    expiresIn: ACCESS_TOKEN_EXPIRY,
+    expiresIn: accessTokenExpiry,
   });
 
   const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET!, {
-    expiresIn: REFRESH_TOKEN_EXPIRY,
+    expiresIn: refreshTokenExpiry,
   });
 
   return { accessToken, refreshToken };
@@ -38,7 +38,7 @@ export const storeRefreshToken = async (userId: string, refreshToken: string) =>
 export const getRefreshToken = async (userId: string): Promise<string | null> => {
   const result = await redisClient.sendCommand(['JSON.GET', `refreshToken:${userId}`, '$']);
   if (result) {
-    const token = typeof result === 'string' ? result : String(result);
+      const token = typeof result === 'string' ? result : String(result);
     const parsed = JSON.parse(token);
     return parsed.token || null;
   }
