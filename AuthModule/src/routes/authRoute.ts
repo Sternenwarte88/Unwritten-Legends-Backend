@@ -9,10 +9,10 @@ import {
 
 const router: Router = express.Router();
 
-router.post('/auth/login/', loginUser);
-router.post('/auth/register/', registerUser);
-router.post('/auth/refresh/', refreshAccessToken);
-router.post('/auth/logout/', logoutUser);
-router.get('/auth/health', healthCheck);
+router.post('/login/', loginUser);
+router.post('/register/', registerUser);
+router.post('/refresh/', refreshAccessToken);
+router.post('/logout/', logoutUser);
+router.get('/health', healthCheck);
 
 export default router;
