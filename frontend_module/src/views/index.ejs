@@ -2,44 +2,61 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= title %></title>
-    <link rel="stylesheet" href="public/style.css" />
+    <link rel="stylesheet" href="/public/style.css" />
   </head>
   <body>
+    <!-- Header mit Titel, Datum und Countdown -->
     <header>
       <h1><%= title %></h1>
       <p>Stand: <%= date %></p>
+      <p>Nächste Aktualisierung in: <span id="countdown"><%- nextUpdate %></span> Sekunden</p>
     </header>
 
+    <!-- Status-Tabelle -->
     <main>
       <table>
         <thead>
           <tr>
             <th>Service</th>
             <th>Status</th>
-            <th>HTTP-Code</th>
-            <th>Antwortzeit</th>
-            <th>Endpoint</th>
+            <th>Response Time</th>
           </tr>
         </thead>
         <tbody>
           <% services.forEach(service => { %>
           <tr>
             <td><%= service.name %></td>
-            <td class="<%= service.status.toLowerCase() %>"><%= service.status %></td>
-            <td><%= service.code || 'N/A' %></td>
-            <td><%= service.responseTime ? service.responseTime + 'ms' : '-' %></td>
             <td>
-              <a href="<%= service.url %>" target="_blank"><%= service.url %></a>
+              <span class="status-bulb <%= service.status.toLowerCase() %>"></span>
             </td>
+            <td><%= service.responseTime ? service.responseTime + ' ms' : '-' %></td>
           </tr>
           <% }) %>
         </tbody>
       </table>
     </main>
 
+    <!-- Footer -->
     <footer>
       <p>© 2025 Unwritten Legends Status</p>
     </footer>
+
+    <!-- Countdown & Auto-Refresh Script -->
+    <script>
+      var countdown = Number('<%- nextUpdate %>');
+      const countdownElement = document.getElementById('countdown');
+
+      function updateCountdown() {
+        countdown--;
+        countdownElement.textContent = countdown;
+        if (countdown <= 0) {
+          location.reload(); // Seite neu laden, wenn Countdown abgelaufen
+        }
+      }
+
+      setInterval(updateCountdown, 1000);
+    </script>
   </body>
 </html>

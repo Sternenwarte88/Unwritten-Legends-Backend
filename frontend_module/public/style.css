@@ -1,24 +1,127 @@
+/* === Allgemeine Styles === */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: #e0e0e0;
+  padding: 20px;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 2.5em;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+p {
+  text-align: center;
+  color: #aaaaaa;
+}
+
+/* === Tabelle === */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px auto;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th,
+td {
+  padding: 15px;
+  text-align: center;
+}
+
+th {
+  background-color: #2c2c2c;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #2a2a2a;
+}
+
+tr:nth-child(odd) {
+  background-color: #232323;
+}
+
+/* === Status-Badges === */
 .online {
-    color: green;
-    font-weight: bold;
-  }
-  
-  .offline {
-    color: red;
-    font-weight: bold;
-  }
-  
-  .issue {
-    color: orange;
-    font-weight: bold;
-  }
-  
-  a {
-    color: #0066cc;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
-  
+  color: #00ff88;
+  font-weight: bold;
+}
+
+.offline {
+  color: #ff4b4b;
+  font-weight: bold;
+}
+
+.issue {
+  color: #ffcc00;
+  font-weight: bold;
+}
+
+/* === Footer === */
+footer {
+  text-align: center;
+  font-size: 0.9em;
+  color: #888888;
+  padding: 15px;
+  margin-top: 30px;
+  border-top: 1px solid #333333;
+}
+
+/* === Ampel-Icons für Status === */
+.status-bulb {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin: 0 auto;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}
+
+.online {
+  background-color: #00ff88;
+}
+
+.offline {
+  background-color: #ff4b4b;
+}
+
+.issue {
+  background-color: #ffcc00;
+}
+
+/* === Tabelle verbessern === */
+table {
+  width: 80%;
+  max-width: 800px;
+  margin: 20px auto;
+  border-collapse: collapse;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th {
+  background-color: #333333;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-size: 0.9em;
+}
+
+td {
+  font-size: 1.1em;
+}
+
+tr:hover {
+  background-color: #2e2e2e;
+  transition: background-color 0.3s ease-in-out;
+}
