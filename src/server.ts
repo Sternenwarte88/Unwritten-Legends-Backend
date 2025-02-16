@@ -1,5 +1,5 @@
 import express, { Application, Request, Response } from 'express';
-import router from './routes/auth';
+import router from './routes/authRoute';
 import connectDB from './config/db';
 import dotenv from 'dotenv';
 
