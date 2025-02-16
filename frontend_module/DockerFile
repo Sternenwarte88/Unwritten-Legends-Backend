@@ -1,7 +1,20 @@
-FROM node:18-alpine
+FROM node
 WORKDIR /app
-COPY package*.json ./
-RUN npm install --production
-COPY . .
-CMD ["npm", "start"]
+
+# Dependencies installieren
+COPY package.json ./
+RUN npm install 
+
+# 📌 Hier den gesamten Quellcode kopieren
+COPY . . 
+
+RUN mkdir -p ./dist/
+RUN mv ./src/views ./dist/
+RUN mv ./public ./dist/public
+
+# TypeScript kompilieren
+RUN npm run build
+
+# Startbefehl
 EXPOSE 80
+CMD ["node", "dist/app.js"]

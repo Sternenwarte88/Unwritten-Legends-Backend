@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="public/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1><%= title %></h1>
+      <p>Stand: <%= date %></p>
+    </header>
+
+    <main>
+      <table>
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Status</th>
+            <th>HTTP-Code</th>
+            <th>Antwortzeit</th>
+            <th>Endpoint</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% services.forEach(service => { %>
+          <tr>
+            <td><%= service.name %></td>
+            <td class="<%= service.status.toLowerCase() %>"><%= service.status %></td>
+            <td><%= service.code || 'N/A' %></td>
+            <td><%= service.responseTime ? service.responseTime + 'ms' : '-' %></td>
+            <td>
+              <a href="<%= service.url %>" target="_blank"><%= service.url %></a>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </main>
+
+    <footer>
+      <p>© 2025 Unwritten Legends Status</p>
+    </footer>
+  </body>
+</html>

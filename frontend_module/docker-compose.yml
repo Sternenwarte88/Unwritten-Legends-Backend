@@ -1,12 +1,19 @@
 version: '3.8'
+
 services:
-  frontend:
-    build: .
-    container_name: frontend-module
+  status-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - '80:80'
-    volumes:
-      - .:/app
-      - /app/node_modules
     environment:
       - NODE_ENV=production
+    volumes:
+      - ./src:/app/src
+    networks:
+      - ul_network
+
+networks:
+  ul_network:
+    external: true
