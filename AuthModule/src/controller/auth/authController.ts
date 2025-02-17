@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import bcrypt from 'bcrypt';
-import { IUserDocument } from '../../interfaces/database/IUser';
 import User from '../../models/user';
+import axios from 'axios';
 import {
   accessTokenExpiry,
   createTokens,
@@ -10,6 +10,8 @@ import {
   storeRefreshToken,
 } from '../../utilities/jwtUtil';
 import jwt from 'jsonwebtoken';
+import IUserResponse from '../../interfaces/database/IAxios';
+import { AxiosResponse } from 'axios';
 
 // ✅ Login
 
@@ -20,7 +22,22 @@ export const loginUser: RequestHandler = async (
 ) => {
   try {
     const { email, password } = req.body;
-    const user = (await User.findOne({ email }).lean().exec()) as IUserDocument;
+    const response: AxiosResponse<IUserResponse> = await axios.post(
+      `${process.env.PLAYER_BACKEND_URL}login`,
+      {
+        email,
+        password,
+        headers: { 'Content-Type': 'application/json' },
+      },
+    );
+
+    if (response.status !== 200 || !response.data) {
+      res.status(404).json({
+        isSuccess: false,
+        message: 'Benutzer/Email nicht gefunden oder fehlerhaft',
+      });
+    }
+    const user = response.data;
 
     if (!user) {
       res
@@ -28,7 +45,7 @@ export const loginUser: RequestHandler = async (
         .json({ isSuccess: false, message: 'Benutzer/Email nicht gefunden oder fehlerhaft' });
     }
 
-    const isMatched = bcrypt.compare(password, user.password);
+    const isMatched = bcrypt.compare(password, user.player.password);
 
     if (!isMatched) {
       res
@@ -39,17 +56,17 @@ export const loginUser: RequestHandler = async (
     const { accessToken, refreshToken } = createTokens(user);
 
     // Refresh Token in Redis speichern
-    await storeRefreshToken(user._id, refreshToken);
+    await storeRefreshToken(user.player._id, refreshToken);
 
     res.status(200).json({
       isSuccess: true,
       accessToken: accessToken,
       refreshToken: refreshToken,
       message: 'Login erfolgreich',
-      data: { userName: 'user.username' },
+      data: { userName: user.player.username },
     });
   } catch (error) {
-    res.status(500).json({ message: 'Fehler beim Abrufen der Nutzer' });
+    res.status(500).json({ message: 'Fehler beim Abrufen der Nutzer', error: error });
   }
 };
 
@@ -78,30 +95,35 @@ export const registerUser: RequestHandler = async (
   next: NextFunction,
 ) => {
   try {
-    const user: IUserDocument = new User();
     const { username, email, password } = req.body;
 
-    const foundUser = await User.findOne({ email });
-    if (foundUser) {
+    let response: AxiosResponse<IUserResponse> = await axios.post(
+      `${process.env.PLAYER_BACKEND_URL}login`,
+      {
+        params: { email, password },
+        headers: { 'Content-Type': 'application/json' },
+      },
+    );
+
+    if (response.status !== 200 || !response.data) {
       res.json({ message: 'User already exists!' });
       console.log('User exists');
       return;
     }
 
     const decryptedPassword: string = await bcrypt.hash(password, 10);
-
-    user.username = username;
-    user.email = email;
-    user.password = decryptedPassword;
-
-    await user.save();
-
-    res.json({
-      message: 'User Created!',
-      data: user.email,
+    response = await axios.post(`${process.env.PLAYER_BACKEND_URL}register`, {
+      params: { username, email, decryptedPassword },
+      headers: { 'Content-Type': 'application/json' },
     });
 
-    console.log('User created');
+    if (response.data.player._id) {
+      res.json({
+        message: 'User Created!',
+        data: response.data.player.email,
+      });
+      console.log('User created');
+    }
   } catch (error) {
     res.json({ error: error, message: 'Error ' + error });
   }
