@@ -1,0 +1,17 @@
+services:
+  playerservice:
+    build: .
+    container_name: unwritten-legends-playerservice
+    restart: always
+    env_file: .env
+    ports:
+      - '4000:4000'
+    networks:
+      - ul_network
+    volumes:
+      - ./src:/app/src # ✅ Nur den src-Ordner mounten, damit Code-Änderungen sofort übernommen werden
+    command: npm run dev
+
+networks:
+  ul_network:
+    external: true
