@@ -1,0 +1,17 @@
+services:
+  realmservice:
+    build: .
+    container_name: unwritten-legends-realmservice
+    restart: always
+    env_file: .env
+    ports:
+      - '5000:5000'
+    networks:
+      - ul_network
+    volumes:
+      - ./src:/app/src # ✅ Nur den src-Ordner mounten, damit Code-Änderungen sofort übernommen werden
+    command: npm run dev
+
+networks:
+  ul_network:
+    external: true
