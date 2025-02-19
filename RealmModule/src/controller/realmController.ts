@@ -67,10 +67,44 @@ export const assignRealm = async (
   let realm: IRealmDocument | null;
 
   try {
-    realm = await Realms.findOne().sort({ playerCount: 1 });
+    realm = await Realms.findOne({ status: 'active' }).sort({ playerCount: 1 });
   } catch (error) {
     console.error(error);
     return;
+  }
+
+  if (!realm) {
+    console.log('Alle Realms voll – Erstelle neuen Realm!');
+
+    // 📌 Höchste aktuelle Nummer suchen
+    const lastRealm = await Realms.findOne().sort({ name: -1 }); // Sortiert absteigend nach Namen
+    let newRealmNumber = 1; // Default-Wert, falls es noch keinen Realm gibt
+
+    if (lastRealm) {
+      const match = lastRealm.name.match(/(\d+)$/); // Letzte Zahl aus dem Namen extrahieren
+      if (match) {
+        newRealmNumber = parseInt(match[1], 10) + 1; // Erhöhe die Nummer um 1
+      }
+
+      realm = new Realms({
+        name: `Realm ${newRealmNumber}`, // 🔥 Dynamische Nummerierung
+        playerCount: 1,
+        status: 'active',
+      });
+
+      try {
+        await realm.save();
+        res.json({
+          isSuccessfull: true,
+          data: realm,
+        });
+        return;
+      } catch (error) {
+        console.error(error);
+        res.json({ isSuccessfull: false, error: error });
+        return;
+      }
+    }
   }
 
   try {
@@ -78,7 +112,10 @@ export const assignRealm = async (
       throw new Error('smallest Realm is undefined');
     }
     realm.playerCount += 1;
-    realm.save();
+    if ((realm.playerCount = 128)) {
+      realm.status = 'full';
+    }
+    await realm.save();
     res.json({ IsSuccessfull: true, data: realm });
   } catch (error) {
     console.error(error);
