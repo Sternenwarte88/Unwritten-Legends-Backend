@@ -122,3 +122,7 @@ export const assignRealm = async (
     res.json({ IsSuccessfull: false, errorMessage: error });
   }
 };
+
+export const healthCheck = (req: Request, res: Response, next: NextFunction) => {
+  res.status(200).json({ msg: 'ok' });
+};

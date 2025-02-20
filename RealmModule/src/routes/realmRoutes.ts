@@ -1,8 +1,12 @@
-import express, { Router } from 'express';
-import { createRealm } from '../controller/realmController';
+import express from 'express';
+import { assignRealm, createRealm, getAllRealms, getRealm, healthCheck } from '../controller/realmController';
 
 const router = express.Router();
 
+router.get('getRealm', getRealm);
 router.post('/create', createRealm);
+router.post('getAllReamls', getAllRealms);
+router.post('assignRealm', assignRealm);
+router.get('/health', healthCheck);
 
 export default router;
