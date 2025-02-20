@@ -12,7 +12,7 @@ interface ApiServiceStatus {
 const apiEndpoints = [
   { name: 'Auth-Service', url: 'http://backend:3000/api/auth/health' },
   { name: 'Player-Service', url: 'http://playerservice:4000/api/player/health' },
-  { name: 'Matchmaking-Service', url: 'http://backend:3000/api/matchmaking/health' }
+  { name: 'Matchmaking-Service', url: 'http://realmservice:5000/api/realm/health' }
 ];
 
 // API-Statusprüfungen parallel durchführen
