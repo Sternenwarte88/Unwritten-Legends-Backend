@@ -2,6 +2,7 @@ import { Request, Response, NextFunction, RequestHandler } from 'express';
 import bcrypt from 'bcrypt';
 import { IUserDocument } from '../interfraces/IUser';
 import User from '../models/user';
+import axios from 'axios';
 
 export const loginUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -51,9 +52,12 @@ export const registerUser = async (
       return;
     }
 
+    const realmResponse = await axios.post(`${process.env.REALM_SERVICE_URL}assignRealm`, {});
+
     user.username = username;
     user.email = email;
     user.password = password;
+    user.realmId = realmResponse.data.realmId;
 
     await user.save();
 
