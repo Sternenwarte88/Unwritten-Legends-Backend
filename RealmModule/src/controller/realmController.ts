@@ -96,7 +96,7 @@ export const assignRealm = async (
         await realm.save();
         res.json({
           isSuccessfull: true,
-          data: realm,
+          data: { id: realm.id, name: realm.name },
         });
         return;
       } catch (error) {
@@ -116,7 +116,7 @@ export const assignRealm = async (
       realm.status = 'full';
     }
     await realm.save();
-    res.json({ IsSuccessfull: true, data: realm });
+    res.json({ IsSuccessfull: true, data: { id: realm.id, name: realm.name } });
   } catch (error) {
     console.error(error);
     res.json({ IsSuccessfull: false, errorMessage: error });
