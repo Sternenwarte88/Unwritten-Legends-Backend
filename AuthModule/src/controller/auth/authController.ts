@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import bcrypt from 'bcrypt';
-import User from '../../models/user';
 import axios from 'axios';
 import {
   accessTokenExpiry,
@@ -12,6 +11,7 @@ import {
 import jwt from 'jsonwebtoken';
 import IUserResponse from '../../interfaces/database/IAxios';
 import { AxiosResponse } from 'axios';
+import user from '../../models/user';
 
 // ✅ Login
 
@@ -97,10 +97,11 @@ export const registerUser: RequestHandler = async (
   try {
     const { username, email, password } = req.body;
 
-    let response: AxiosResponse<IUserResponse> = await axios.post(
-      `${process.env.PLAYER_BACKEND_URL}login`,
+    let response = await axios.post(
+      `${process.env.PLAYER_BACKEND_URL}register`,
       {
-        params: { email, password },
+        email: email,
+        password: password,
         headers: { 'Content-Type': 'application/json' },
       },
     );
@@ -113,14 +114,18 @@ export const registerUser: RequestHandler = async (
 
     const decryptedPassword: string = await bcrypt.hash(password, 10);
     response = await axios.post(`${process.env.PLAYER_BACKEND_URL}register`, {
-      params: { username, email, decryptedPassword },
+      username: username,
+      email: email,
+      password: decryptedPassword,
       headers: { 'Content-Type': 'application/json' },
     });
 
-    if (response.data.player._id) {
+    console.log(response.data);
+
+    if (response.data.email) {
       res.json({
         message: 'User Created!',
-        data: response.data.player.email,
+        data: response.data.email,
       });
       console.log('User created');
     }

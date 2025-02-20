@@ -54,17 +54,19 @@ export const registerUser = async (
 
     const realmResponse = await axios.post(`${process.env.REALM_SERVICE_URL}assignRealm`, {});
 
+    console.log(realmResponse.data.data.id);
+
     user.username = username;
     user.email = email;
     user.password = password;
-    user.realmId = realmResponse.data.realmId;
+    user.realmId = realmResponse.data.data.id;
 
     await user.save();
 
     res.json({
       isSuccess: true,
       message: 'User Created!',
-      data: user.email,
+      email: user.email,
     });
 
     console.log('User created');

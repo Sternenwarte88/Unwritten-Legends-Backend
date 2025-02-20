@@ -73,6 +73,8 @@ export const assignRealm = async (
     return;
   }
 
+  console.log(realm);
+
   if (!realm) {
     console.log('Alle Realms voll – Erstelle neuen Realm!');
 
@@ -85,25 +87,24 @@ export const assignRealm = async (
       if (match) {
         newRealmNumber = parseInt(match[1], 10) + 1; // Erhöhe die Nummer um 1
       }
-
-      realm = new Realms({
-        name: `Realm ${newRealmNumber}`, // 🔥 Dynamische Nummerierung
-        playerCount: 1,
-        status: 'active',
+    }
+    realm = new Realms({
+      name: `Realm ${newRealmNumber}`, // 🔥 Dynamische Nummerierung
+      playerCount: 1,
+      status: 'active',
+    });
+    try {
+      await realm.save();
+      res.json({
+        isSuccessfull: true,
+        data: { id: realm.id, name: realm.name },
       });
-
-      try {
-        await realm.save();
-        res.json({
-          isSuccessfull: true,
-          data: { id: realm.id, name: realm.name },
-        });
-        return;
-      } catch (error) {
-        console.error(error);
-        res.json({ isSuccessfull: false, error: error });
-        return;
-      }
+      console.log(realm);
+      return;
+    } catch (error) {
+      console.error(error);
+      res.json({ isSuccessfull: false, error: error });
+      return;
     }
   }
 
@@ -112,7 +113,7 @@ export const assignRealm = async (
       throw new Error('smallest Realm is undefined');
     }
     realm.playerCount += 1;
-    if ((realm.playerCount = 128)) {
+    if ((realm.playerCount == 128)) {
       realm.status = 'full';
     }
     await realm.save();
