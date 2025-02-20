@@ -16,15 +16,6 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
       return;
     }
 
-    const isMatched = bcrypt.compare(password, user.password);
-
-    if (!isMatched) {
-      res
-        .status(404)
-        .json({ isSuccess: false, message: 'Benutzer/Email nicht gefunden oder fehlerhaft' });
-      return;
-    }
-
     res.status(200).json({
       isSuccess: true,
       player: user,

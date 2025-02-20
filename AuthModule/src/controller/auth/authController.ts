@@ -11,7 +11,6 @@ import {
 import jwt from 'jsonwebtoken';
 import IUserResponse from '../../interfaces/database/IAxios';
 import { AxiosResponse } from 'axios';
-import user from '../../models/user';
 
 // ✅ Login
 
@@ -25,8 +24,8 @@ export const loginUser: RequestHandler = async (
     const response: AxiosResponse<IUserResponse> = await axios.post(
       `${process.env.PLAYER_BACKEND_URL}login`,
       {
-        email,
-        password,
+        email: email,
+        password: password,
         headers: { 'Content-Type': 'application/json' },
       },
     );
@@ -97,14 +96,11 @@ export const registerUser: RequestHandler = async (
   try {
     const { username, email, password } = req.body;
 
-    let response = await axios.post(
-      `${process.env.PLAYER_BACKEND_URL}register`,
-      {
-        email: email,
-        password: password,
-        headers: { 'Content-Type': 'application/json' },
-      },
-    );
+    let response = await axios.post(`${process.env.PLAYER_BACKEND_URL}register`, {
+      email: email,
+      password: password,
+      headers: { 'Content-Type': 'application/json' },
+    });
 
     if (response.status !== 200 || !response.data) {
       res.json({ message: 'User already exists!' });
