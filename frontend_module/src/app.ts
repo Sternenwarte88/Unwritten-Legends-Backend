@@ -5,21 +5,24 @@ import { checkApiStatus } from './services/apistatus';
 const app = express();
 const port = 80;
 
+const timeInMinutes = 1;
+const timeToUpdate = timeInMinutes * 60 * 1000;
+
 // 📌 Cache für Status
 let servicesCache: any[] = [];
-let nextUpdateTimestamp = Date.now() + 300000; // 5 Minuten ab jetzt
+let nextUpdateTimestamp = Date.now() + timeToUpdate; // 5 Minuten ab jetzt
 
 // 📌 Funktion zur Statusaktualisierung
 async function updateServices() {
   servicesCache = await checkApiStatus();
-  nextUpdateTimestamp = Date.now() + 300000; // Nächste Abfrage in 5 Minuten
+  nextUpdateTimestamp = Date.now() + timeToUpdate; // Nächste Abfrage in 5 Minuten
 }
 
 // 📌 Starte sofort die erste Abfrage
 updateServices();
 
 // 📌 Alle 5 Minuten automatisch aktualisieren
-setInterval(updateServices, 300000);
+setInterval(updateServices, timeToUpdate);
 
 // 📌 Views und Public
 app.set('views', path.join(__dirname, 'views'));
