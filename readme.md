@@ -1,54 +1,55 @@
-# 📊 Unwritten Legends - AuthModule & Dashboard Microservices
+# 📊 Unwritten Legends – AuthModule & Dashboard Microservices
 
-Dieses Projekt besteht aus zwei separaten Microservices für Unwritten Legends: **AuthModule** und
-**Status-Dashboard**, die jeweils ihre eigene `docker-compose.yml` im jeweiligen Ordner enthalten
-und separat gebuildet sowie gestartet werden. 🚀🔥
+This project consists of two separate microservices for **Unwritten Legends**: **AuthModule** and **Status Dashboard**.  
+Each service has its own `docker-compose.yml` inside its folder and can be built and started independently. 🚀🔥
+
+---
 
 ## 📌 **Features**
 
-- ✅ Zwei eigenständige Microservices: **AuthModule** & **Dashboard**
-- ✅ Jeder Microservice besitzt eine eigene `docker-compose.yml` im jeweiligen Verzeichnis
-- ✅ `.env`-Datei für Konfiguration im **AuthModule** ⚙️
-- ✅ Echtzeit-Statusabfragen mehrerer APIs 🟢🟡🔴
-- ✅ Authentifizierung mit JWT-Token-Verwaltung 🔐
-- ✅ Docker-Ready (separate Container) 🐳
-- ✅ Responsive Dark-Theme 🌙
+- ✅ Two independent microservices: **AuthModule** & **Dashboard**
+- ✅ Each microservice has its own `docker-compose.yml` inside its directory
+- ✅ `.env` file for configuration in the **AuthModule** ⚙️
+- ✅ Real-time status checks for multiple APIs 🟢🟡🔴
+- ✅ Authentication with JWT token handling 🔐
+- ✅ Docker-ready (separate containers) 🐳
+- ✅ Responsive dark theme 🌙
 
 ---
 
-## 🛠️ **Installation & Start**
+## 🛠️ **Installation & Startup**
 
-### Voraussetzungen:
+### Requirements
 
-- Docker 🐳
-- Docker Compose 📦
+- Docker 🐳  
+- Docker Compose 📦  
 - Node.js 🟢
 
-### 🚀 **Microservices separat builden & starten:**
+### 🚀 **Build & start the microservices separately**
 
 ```bash
-# Projekt klonen
+# Clone project
 git clone https://github.com/Sternenwarte88/Unwritten-Legends-Backend.git
 cd unwritten-legends
 
-# AuthModule: Build & Start
+# AuthModule: Build & start
 cd auth_module
 docker-compose up --build
 
-# Dashboard: Build & Start
+# Dashboard: Build & start
 cd ../frontend_module
 docker-compose up --build
 ```
 
-### 💻 **Lokale Entwicklung (Separate Services)**
+### 💻 **Local development (separate services)**
 
 ```bash
-# AuthModule starten
+# Start AuthModule
 cd auth_module
 npm install
 npm run dev
 
-# Dashboard starten
+# Start Dashboard
 cd ../frontend_module
 npm install
 npm run dev
@@ -56,54 +57,52 @@ npm run dev
 
 ---
 
-## ⚙️ **Projektstruktur**
+## ⚙️ **Project Structure**
 
-### AuthModule Microservice:
+### AuthModule microservice
 
-```
+```txt
 📂 auth_module/
- ┣ 📂 config/           # DB- & Redis-Verbindungen
- ┣ 📂 controller/auth/   # Authentifizierung
- ┣ 📂 interfaces/        # Benutzer-Interface
- ┣ 📂 models/           # Benutzer-Modell
- ┣ 📂 routes/           # Auth-Routen
- ┣ 📂 utilities/        # JWT-Helper
- ┣ 📜 .env              # Umgebungsvariablen für AuthModule
- ┣ 📜 docker-compose.yml # Docker Compose für AuthModule
- ┗ 📜 server.ts         # Express-Server
+ ┣ 📂 config/            # DB & Redis connections
+ ┣ 📂 controller/auth/   # Authentication logic
+ ┣ 📂 interfaces/        # User interface types
+ ┣ 📂 models/            # User model
+ ┣ 📂 routes/            # Auth routes
+ ┣ 📂 utilities/         # JWT helpers
+ ┣ 📜 .env               # Environment variables for the AuthModule
+ ┣ 📜 docker-compose.yml # Docker Compose for the AuthModule
+ ┗ 📜 server.ts          # Express server
 ```
 
-### Status-Dashboard Microservice:
+### Status Dashboard microservice
 
-```
+```txt
 📂 frontend_module/
- ┣ 📂 public/           # CSS & Assets
+ ┣ 📂 public/            # CSS & assets
  ┣ 📂 src/
- ┃ ┣ 📂 services/       # API-Statusprüfungen
- ┃ ┣ 📂 views/          # EJS-Template
- ┃ ┗ 📜 app.ts          # Express-Server
- ┣ 📜 docker-compose.yml # Docker Compose für Dashboard
+ ┃ ┣ 📂 services/        # API status checks
+ ┃ ┣ 📂 views/           # EJS template
+ ┃ ┗ 📜 app.ts           # Express server
+ ┣ 📜 docker-compose.yml # Docker Compose for the dashboard
  ┣ 📜 Dockerfile
  ┗ 📜 tsconfig.json
 ```
 
 ---
 
-## 🧩 **Wichtige Konfigurationen**
+## 🧩 **Important Configuration Points**
 
-- **API-Endpoints:** Bearbeiten in `frontend_module/src/services/apistatus.ts`
-- **EJS-Template:** In `frontend_module/src/views/index.ejs`
-- **Auth-Datenbank:** Konfigurieren in `auth_module/src/config/db.ts`
-- **`.env` für AuthModule:** Wichtige Umgebungsvariablen wie Ports, DB-URLs, JWT-Keys in
-  `auth_module/.env` verwalten.
-- **Docker Compose:** Jeweils in den `docker-compose.yml` in den Ordnern `auth_module/` und
-  `frontend_module/`
+- **API endpoints:** Configure in `frontend_module/src/services/apistatus.ts`
+- **EJS template:** Located in `frontend_module/src/views/index.ejs`
+- **Auth database:** Configure in `auth_module/src/config/db.ts`
+- **`.env` for AuthModule:** Manage important environment variables such as ports, DB URLs and JWT keys in `auth_module/.env`.
+- **Docker Compose:** Separate `docker-compose.yml` files in `auth_module/` and `frontend_module/`.
 
 ---
 
-## 📜 **Lizenz**
+## 📜 **License**
 
-Dieses Projekt ist **privat** und darf **nicht** kopiert, verändert, verbreitet oder kommerziell
-genutzt werden. Jegliche Verwendung außerhalb der autorisierten Nutzung ist **untersagt**.
+This project is **private** and may **not** be copied, modified, distributed or used commercially.  
+Any use outside of authorized access is **strictly prohibited**.
 
-Viel Spaß und Happy Coding! 🚀😊
+Have fun and happy coding! 🚀😊
