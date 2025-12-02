@@ -1,144 +1,105 @@
-# 📘 CourseManager API – TypeScript Showcase Project
+# 📊 Unwritten Legends – AuthModule & Dashboard Microservices
 
-Welcome to the **CourseManager API**, a structured backend project for managing online courses and participants — built with **Express.js** and **TypeScript**.
-
-This repository serves as a **technical showcase** to demonstrate relevant TypeScript backend skills:
-
-- Clean architecture  
-- Clear separation of concerns  
-- Practical TypeScript features  
-- Realistic REST endpoints — **without heavy frameworks or external validators**
+This project consists of two separate microservices for **Unwritten Legends**: **AuthModule** and **Status Dashboard**. Each service has its own `docker-compose.yml` inside its folder and can be built and started independently. 🚀🔥
 
 ---
 
-## 🎯 Features – Demonstrated Skills
+## 📌 Features
 
-- 📚 **Course management** via REST API (`/courses`)
-- 👤 **User management** (`/users`)
-- 🧱 **OOP concepts** (classes, basic service logic, strong typing)
-- 🧠 **TypeScript usage**:
-  - Type aliases for data models  
-  - Lightweight manual validation  
-  - Separation of routing, logic, and type definitions  
-- 📦 **Modular project structure**
-- 🗂️ JSON-based storage for simple persistence
-- 🧪 **Unit tests** for core logic (services, validation, and edge cases)
+- Two independent microservices: **AuthModule** & **Dashboard**
+- Each microservice has its own `docker-compose.yml` inside its directory
+- `.env` file for configuration in the **AuthModule** ⚙️
+- Real-time status checks for multiple APIs 🟢🟡🔴
+- Authentication with JWT token handling 🔐
+- Docker-ready (separate containers) 🐳
+- Responsive dark theme 🌙
 
 ---
 
-## 🚀 Getting Started
+## 🛠️ Installation & Startup
 
 ### Requirements
+- Docker 🐳
+- Docker Compose 📦
+- Node.js 🟢
 
-- Node.js 18+
-- npm or yarn
-- Git
-
-### Installation
+### 🚀 Build & start the microservices separately
 
 ```bash
-git clone git@github-alt:Sternenwarte88/Typescript-demo.git
-cd Typescript-demo
+# Clone project
+git clone https://github.com/Sternenwarte88/Unwritten-Legends-Backend.git
+cd unwritten-legends
+
+# AuthModule: Build & start
+cd auth_module
+docker-compose up --build
+
+# Dashboard: Build & start
+cd ../frontend_module
+docker-compose up --build
+```
+
+### 💻 Local development (separate services)
+
+```bash
+# Start AuthModule
+cd auth_module
 npm install
-```
-
-### Scripts
-
-| Command         | Description                                      |
-|-----------------|--------------------------------------------------|
-| `npm run dev`   | Start development mode using `ts-node-dev`       |
-| `npm run build` | Transpile TypeScript into `/dist`                |
-| `npm start`     | Run the production server from `dist/index.js`   |
-| `npm test`      | Run the unit test suite                          |
-
-```bash
 npm run dev
-npm run build
-npm start
-npm test
+
+# Start Dashboard
+cd ../frontend_module
+npm install
+npm run dev
 ```
 
 ---
 
-## 🔁 Example Requests (curl/Postman)
+## ⚙️ Project Structure
 
-### Create User
+### AuthModule microservice
 
-```bash
-curl -X POST http://localhost:3000/users \
-  -H "Content-Type: application/json" \
-  -d '{"name": "Anna", "email": "anna@example.com", "role": "student"}'
+```txt
+📂 auth_module/
+ ┣ 📂 config/             # DB & Redis connections
+ ┣ 📂 controller/auth/    # Authentication logic
+ ┣ 📂 interfaces/         # User interface types
+ ┣ 📂 models/             # User model
+ ┣ 📂 routes/             # Auth routes
+ ┣ 📂 utilities/          # JWT helpers
+ ┣ 📜 .env                # Environment variables for the AuthModule
+ ┣ 📜 docker-compose.yml  # Docker Compose for the AuthModule
+ ┗ 📜 server.ts           # Express server
 ```
 
-Allowed roles: `admin`, `instructor`, `student`.
+### Status Dashboard microservice
 
----
-
-### Create Course
-
-```bash
-curl -X POST http://localhost:3000/courses \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "TypeScript Basics",
-    "description": "Introductory course for beginners",
-    "price": 99.99,
-    "tags": ["typescript", "beginner"],
-    "author": "Max Mustermann"
-  }'
-```
-
-- `price` must be a number  
-- `tags` must be an array of strings  
-
----
-
-## 🧱 Project Structure
-
-```plaintext
-src/
-├── controllers/      # REST request handlers
-├── models/           # Data models (User, Course)
-├── routes/           # Express routers
-├── services/         # Business logic
-├── types/            # Type definitions
-├── utils/            # Helper functions (e.g. ID generator)
-└── index.ts          # Application entry point
+```txt
+📂 frontend_module/
+ ┣ 📂 public/              # CSS & assets
+ ┣ 📂 src/
+ ┃ ┣ 📂 services/          # API status checks
+ ┃ ┣ 📂 views/             # EJS template
+ ┃ ┗ 📜 app.ts             # Express server
+ ┣ 📜 docker-compose.yml   # Docker Compose for the dashboard
+ ┣ 📜 Dockerfile
+ ┗ 📜 tsconfig.json
 ```
 
 ---
 
-## ⚙️ Technologies & Concepts
+## 🧩 Important Configuration Points
 
-| Topic                    | Implementation                                    |
-|--------------------------|----------------------------------------------------|
-| **TypeScript**           | Type aliases, strong typing, modular structure     |
-| **Express.js**           | Routing & REST endpoints                           |
-| **Manual validation**    | Basic checks without external validation libraries |
-| **Modularization**       | Separation of logic, routes, and type definitions  |
-| **File-based storage**   | JSON files as a simple database alternative        |
-| **Unit testing**         | Automated tests for core business logic            |
+- **API endpoints:** Configure in `frontend_module/src/services/apistatus.ts`
+- **EJS template:** Located in `frontend_module/src/views/index.ejs`
+- **Auth database:** Configure in `auth_module/src/config/db.ts`
+- **`.env` for AuthModule:** Manage important environment variables such as ports, DB URLs and JWT keys in `auth_module/.env`
+- **Docker Compose:** Separate `docker-compose.yml` files in `auth_module/` and `frontend_module/`
 
 ---
 
-## 💼 Purpose & Showcase Value
+## 📜 License
 
-The CourseManager API was developed as a personal project to demonstrate **practical TypeScript skills in backend development**.
+This project is **private** and may **not** be copied, modified, distributed or used commercially. Any use outside of authorized access is **strictly prohibited**.
 
-Goals of this project:
-
-- Provide realistic, easy-to-understand REST endpoints  
-- Showcase clean, maintainable architecture patterns  
-- Use TypeScript in a transparent, beginner-friendly way  
-- Avoid framework complexity to focus on fundamentals  
-- Demonstrate basic **unit testing** and test-driven thinking
-
-This repository can be used as a **portfolio project in job applications**.
-
----
-
-## 👤 Contact
-
-Project & implementation: **[Stephan aka Sternenwarte88](https://github.com/Sternenwarte88)**  
-
-Feedback or questions? Feel free to open an issue or reach out via GitHub.
+Have fun and happy coding! 🚀😊
