@@ -1,119 +1,112 @@
 # 📊 Unwritten Legends – Microservice Architecture Prototype (Legacy)
 
-_This repository represents an **early architecture prototype** for a microservice-based backend of “Unwritten Legends”. It is currently being **refactored and modernized** as part of my ongoing upgrade of older backend projects._
+_This repository represents an early, experimental prototype for a microservice‑inspired backend. It remains publicly available as a snapshot of my backend evolution and a reference point for how my architectural thinking has changed over time._
 
 ---
 
-## 🎯 Project Purpose
+## 🎯 Purpose of This Repository
 
-Originally started as my **first real API experiment**, this codebase has evolved into a **microservice playground** where I explore:
+This codebase began as my **first larger backend experiment**, created long before my current standards in architecture, testing, and security. Today, it serves three purposes:
 
-- Service boundaries & responsibilities
-- Separation of concerns between frontend, domain logic and auth
-- Docker-based separation of services
-- Future migration paths towards NestJS and more structured backends
+- a **legacy reference** to understand where my early service designs came from
+- a **playground** for experimenting with modularity, separation of concerns and multi‑service layouts
+- a **contrast point** to my modern backend work (e.g., NestJS, DTO‑driven APIs, structured modules)
 
-This project is the **bridge** between my earlier Node.js/Express style and the more modern, structured **v2 architecture** I am currently building.
+It is **not** intended to be polished, feature‑complete or actively expanded. It documents a learning path.
 
 ---
 
-## 🧱 Current Microservices (Legacy State)
+## 🧱 Legacy Service Modules
 
-The repository is split into several logical modules, each representing its own service or service-area:
+The repository is split into several modules, each reflecting its own service area. Their structure mirrors my early attempt at microservice separation, though not all modules reached a mature state.
 
-### 1️⃣ Auth Module
-- Legacy authentication service (Express + JWT)
-- Handles login, token issuing and refresh logic
-- Uses Redis/DB for refresh token storage (depending on config)
-- **Planned:** Will be replaced by a dedicated NestJS-based Auth microservice in _Unwritten Legends v2_
+### 1️⃣ Auth Module (Legacy)
+- Express‑based authentication service (JWT)
+- Handles login, token issuing and basic refresh logic
+- Early experiment using Redis/DB for refresh token storage
+- **Note:** Remains legacy; modern auth experiments happen outside this repository
 
 ### 2️⃣ Player Module
-- Handles player-related operations and data
-- Acts as the domain backbone for user/player information
-- Currently implemented in a classic Express style
-- **Planned:** Clearer DTOs, better validation and a more modular service structure
+- Manages user/player‑related data and operations
+- Implemented in a classic Express service style
+- Demonstrates my first attempts at domain modeling and service boundaries
 
 ### 3️⃣ Realm Module
-- Responsible for realm/world-related data and logic
-- Early stage: more architectural experiment than finished feature
-- **Planned:** Clean separation of realm logic into its own service, with a clearly defined API surface
+- Prototype for realm/world‑related data
+- More architectural experiment than functional service
+- Useful for demonstrating early ideas about separating domain responsibilities
 
 ### 4️⃣ Frontend / Status Dashboard Module
-- Independent frontend / status dashboard service
-- Shows health/status of other services
-- Built as a separate module with its own Express + view layer
-- Used to test service-to-service communication and monitoring
+- Independent Express frontend
+- Displays health/status of other services
+- Used to explore lightweight service‑to‑service communication and monitoring
 
 ---
 
-## 🐳 Microservice Startup (Legacy)
+## 🐳 Service Startup (Legacy Examples)
 
-Each service/module can be started separately. Some modules include their own `docker-compose.yml` to boot the required containers.
+Each module can be started independently. Some include their own `docker-compose.yml` files for convenience.
 
-### Example: Auth Module
-
+### Auth Module
 ```bash
-cd auth_module
+dcd auth_module
 npm install
 npm run dev
-# oder Docker-basiert
+# or via Docker
 # docker-compose up --build
 ```
 
-### Example: Frontend / Dashboard Module
-
+### Frontend / Dashboard Module
 ```bash
-cd frontend_module
+dcd frontend_module
 npm install
 npm run dev
-# oder via Docker
+# or via Docker
 # docker-compose up --build
 ```
 
-Other modules (player, realm, etc.) follow a similar pattern and will be unified/cleaned up as part of the ongoing refactor.
+Other modules follow similar patterns.
 
 ---
 
-## 🔄 Modernization & Roadmap (Unwritten Legends v2)
+## 🔄 Modernization & Learning Context
 
-This repository is **actively being updated** and is part of a larger effort to bring all older backend projects up to the level of my current standards.
+This repository is **not under active redevelopment**.
 
-Planned steps include:
+My current backend focus lies in:
+- NestJS
+- modular domain design
+- security‑focused services
+- DTO‑driven API structure
+- consistent testing (unit + integration)
 
-- ✅ Keep this repo as a **legacy/architecture prototype**
-- 🔁 Gradual refactor of modules toward cleaner boundaries and more consistent structure
-- 🧱 Build **Unwritten Legends v2** with:
-  - NestJS-based Auth Service
-  - clearer domain services for Player & Realm
-  - stronger focus on security, DTOs, validation and testing
-- 🐳 Unified Docker & environment configuration across services
-- 🧪 Introduction of consistent unit and integration tests across all services
+From time to time, I may revisit this repo to:
+- review old patterns
+- compare legacy vs. modern implementations
+- try small architectural ideas
 
-The goal is not to *polish legacy forever*, but to use this project as:
-
-- a **documentation of progression** (from first API attempts to more serious microservice architecture)
-- a **sandbox** for microservice experiments
-- a **stepping stone** toward the cleaner, modern v2 implementation
+There is **no intention** to rewrite the entire project or migrate it fully to NestJS. It remains a legacy prototype that documents my progression.
 
 ---
 
-## ⚠️ Note on Code Quality
+## ⚠️ Code Quality Disclaimer
 
-This project contains a mix of older code and newer ideas. Some parts **do not reflect** my current approach to:
-
-- security
-- API structure
+This repository contains a mixture of older logic and evolving ideas. Some parts do **not** reflect my current standards for:
 - error handling
+- domain design
+- validation
+- security
 - testing
-- architecture
 
-That is intentional. The repository stays public as a snapshot of my learning curve and is gradually refactored as I roll my projects forward to a more modern and robust standard.
+This is intentional. The value of this repo is **historical and educational**, not production‑oriented.
 
 ---
 
 ## 📜 License
 
-This project is **private** and may **not** be copied, modified, distributed or used commercially. Any use outside of authorized access is **strictly prohibited**.
+This project is **private** and may not be copied, modified, distributed or used commercially. Any use outside of authorized access is strictly prohibited.
 
-Have fun exploring the architecture – v2 is on the way. 🚀
+---
+
+_This repository remains online as a legacy milestone. New backend work, including modern service designs, happens in separate codebases with updated practices._
 
