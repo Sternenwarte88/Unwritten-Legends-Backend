@@ -1,112 +1,195 @@
-# 📊 Unwritten Legends – Microservice Architecture Prototype (Legacy)
+# 🎮 Unwritten Legends – Microservice Architecture Showcase
 
-_This repository represents an early, experimental prototype for a microservice‑inspired backend. It remains publicly available as a snapshot of my backend evolution and a reference point for how my architectural thinking has changed over time._
+> **Skill Focus:** Microservices, Service Communication, Health Monitoring, JWT Authentication, Docker, Infrastructure
 
----
-
-## 🎯 Purpose of This Repository
-
-This codebase began as my **first larger backend experiment**, created long before my current standards in architecture, testing, and security. Today, it serves three purposes:
-
-- a **legacy reference** to understand where my early service designs came from
-- a **playground** for experimenting with modularity, separation of concerns and multi‑service layouts
-- a **contrast point** to my modern backend work (e.g., NestJS, DTO‑driven APIs, structured modules)
-
-It is **not** intended to be polished, feature‑complete or actively expanded. It documents a learning path.
+A functional microservice system demonstrating independent service architecture with shared infrastructure, real-time health monitoring, and proper separation of concerns.
 
 ---
 
-## 🧱 Legacy Service Modules
+## 🎯 What This Project Demonstrates
 
-The repository is split into several modules, each reflecting its own service area. Their structure mirrors my early attempt at microservice separation, though not all modules reached a mature state.
+This project showcases a **complete microservice ecosystem** – not just application code, but the full infrastructure stack with databases, caching, and service orchestration.
 
-### 1️⃣ Auth Module (Legacy)
-- Express‑based authentication service (JWT)
-- Handles login, token issuing and basic refresh logic
-- Early experiment using Redis/DB for refresh token storage
-- **Note:** Remains legacy; modern auth experiments happen outside this repository
-
-### 2️⃣ Player Module
-- Manages user/player‑related data and operations
-- Implemented in a classic Express service style
-- Demonstrates my first attempts at domain modeling and service boundaries
-
-### 3️⃣ Realm Module
-- Prototype for realm/world‑related data
-- More architectural experiment than functional service
-- Useful for demonstrating early ideas about separating domain responsibilities
-
-### 4️⃣ Frontend / Status Dashboard Module
-- Independent Express frontend
-- Displays health/status of other services
-- Used to explore lightweight service‑to‑service communication and monitoring
+**Part of my portfolio series** – each repo focuses on different backend skills:
+| Repo | Focus |
+|------|-------|
+| [Typescript-demo](https://github.com/Sternenwarte88/Typescript-demo) | Clean Architecture, Testing, TypeDoc |
+| [nest-challenge-solo](https://github.com/Sternenwarte88/nest-challenge-solo) | NestJS, DI, Decorators, Validation |
+| **Unwritten-Legends** | Microservices, Auth, Infrastructure ← You are here |
 
 ---
 
-## 🐳 Service Startup (Legacy Examples)
+## 🏗️ System Architecture
 
-Each module can be started independently. Some include their own `docker-compose.yml` files for convenience.
-
-### Auth Module
-```bash
-dcd auth_module
-npm install
-npm run dev
-# or via Docker
-# docker-compose up --build
+```
+┌──────────────────────────────────────────────────────────────┐
+│                        ul_network                             │
+│                                                               │
+│  ┌─────────────────────────────────────────────────────────┐ │
+│  │                  Status Dashboard                        │ │
+│  │              (Health Monitoring UI)                      │ │
+│  └──────────┬──────────────┬──────────────┬────────────────┘ │
+│             │              │              │                   │
+│        /health        /health        /health                  │
+│             │              │              │                   │
+│             ▼              ▼              ▼                   │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐        │
+│  │ Auth Module  │  │Player Module │  │ Realm Module │        │
+│  │    (JWT)     │  │   (Users)    │  │  (Worlds)    │        │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘        │
+│         │                 │                 │                 │
+│         └─────────────────┼─────────────────┘                 │
+│                           │                                   │
+│                ┌──────────┴──────────┐                        │
+│                ▼                     ▼                        │
+│         ┌──────────────┐      ┌──────────────┐               │
+│         │    Redis     │      │   MongoDB    │               │
+│         │  (Tokens)    │      │   (Data)     │               │
+│         └──────────────┘      └──────────────┘               │
+│                                                               │
+└──────────────────────────────────────────────────────────────┘
 ```
 
-### Frontend / Dashboard Module
+---
+
+## 📦 Repository Structure
+
+This system spans **multiple repositories**, each with a single responsibility:
+
+| Repository | Purpose | Contains |
+|------------|---------|----------|
+| [Unwritten-Legends-Backend](https://github.com/Sternenwarte88/Unwritten-Legends-Backend) | Application Services | Auth, Player, Realm, Dashboard |
+| [Unwritten-Legends-Redis](https://github.com/Sternenwarte88/Unwritten-Legends-Redis) | Session/Token Storage | Redis Docker config |
+| [Unwritten-Legends-Mongo](https://github.com/Sternenwarte88/Unwritten-Legends-Mongo) | Data Persistence | MongoDB Docker config |
+
+All services communicate via a shared Docker network (`ul_network`).
+
+---
+
+## 🧱 Service Modules
+
+### 🔐 Auth Module
+- JWT-based authentication (login, token issuing, refresh)
+- Redis integration for refresh token storage
+- Independent Express service
+
+### 👤 Player Module
+- User/player data management
+- Domain modeling with clear service boundaries
+- RESTful API design
+
+### 🌍 Realm Module
+- Game world/realm data handling
+- Separated domain responsibility
+- Demonstrates bounded context thinking
+
+### 📊 Status Dashboard (Frontend Module)
+- Real-time health monitoring UI
+- Periodically pings all service health endpoints
+- Visual overview of system status
+- Service-to-service communication example
+
+---
+
+## 🔧 Tech Stack
+
+**Application Layer:**
+- Node.js / Express – Service framework
+- TypeScript – Type safety across all modules
+- JWT – Stateless authentication
+- EJS – Dashboard templating
+
+**Infrastructure Layer:**
+- Docker / Docker Compose – Containerization
+- Redis – Refresh token & session storage
+- MongoDB – Data persistence
+- Shared Docker Network – Service communication
+
+---
+
+## 🚀 Getting Started
+
+### 1. Start Infrastructure
+
 ```bash
-dcd frontend_module
-npm install
-npm run dev
-# or via Docker
-# docker-compose up --build
+# Terminal 1: MongoDB
+cd Unwritten-Legends-Mongo
+docker-compose up
+
+# Terminal 2: Redis
+cd Unwritten-Legends-Redis
+docker-compose up
 ```
 
-Other modules follow similar patterns.
+### 2. Start Services
+
+```bash
+# Terminal 3: Auth Module
+cd Unwritten-Legends-Backend/AuthModule
+npm install && npm run dev
+
+# Terminal 4: Player Module
+cd Unwritten-Legends-Backend/PlayerModule
+npm install && npm run dev
+
+# Terminal 5: Realm Module
+cd Unwritten-Legends-Backend/RealmModule
+npm install && npm run dev
+
+# Terminal 6: Dashboard
+cd Unwritten-Legends-Backend/frontend_module
+npm install && npm run dev
+```
+
+Or use Docker Compose in each module directory.
 
 ---
 
-## 🔄 Modernization & Learning Context
+## 📂 Project Structure
 
-This repository is **not under active redevelopment**.
+```
+Unwritten-Legends-Backend/
+├── AuthModule/
+│   ├── src/
+│   ├── docker-compose.yml
+│   └── package.json
+├── PlayerModule/
+│   ├── src/
+│   ├── docker-compose.yml
+│   └── package.json
+├── RealmModule/
+│   ├── src/
+│   ├── docker-compose.yml
+│   └── package.json
+├── frontend_module/
+│   ├── src/
+│   ├── docker-compose.yml
+│   └── package.json
+└── README.md
 
-My current backend focus lies in:
-- NestJS
-- modular domain design
-- security‑focused services
-- DTO‑driven API structure
-- consistent testing (unit + integration)
+Unwritten-Legends-Redis/
+└── docker-compose.yml
 
-From time to time, I may revisit this repo to:
-- review old patterns
-- compare legacy vs. modern implementations
-- try small architectural ideas
-
-There is **no intention** to rewrite the entire project or migrate it fully to NestJS. It remains a legacy prototype that documents my progression.
-
----
-
-## ⚠️ Code Quality Disclaimer
-
-This repository contains a mixture of older logic and evolving ideas. Some parts do **not** reflect my current standards for:
-- error handling
-- domain design
-- validation
-- security
-- testing
-
-This is intentional. The value of this repo is **historical and educational**, not production‑oriented.
+Unwritten-Legends-Mongo/
+└── docker-compose.yml
+```
 
 ---
 
-## 📜 License
+## 💡 Key Takeaways
 
-This project is **private** and may not be copied, modified, distributed or used commercially. Any use outside of authorized access is strictly prohibited.
+This project demonstrates real-world microservice patterns:
+
+- **Service Independence** – Each module is self-contained and deployable
+- **Infrastructure as Code** – Databases containerized and version-controlled
+- **Shared Networking** – Services discover each other via Docker network
+- **Health Monitoring** – Centralized dashboard for system observability
+- **Authentication as a Service** – Auth logic separated from business logic
+- **Bounded Contexts** – Clear separation between Player, Realm, and Auth domains
 
 ---
 
-_This repository remains online as a legacy milestone. New backend work, including modern service designs, happens in separate codebases with updated practices._
+## 👤 Author
 
+**Stephan** – Backend Developer  
+GitHub: [@Sternenwarte88](https://github.com/Sternenwarte88)
